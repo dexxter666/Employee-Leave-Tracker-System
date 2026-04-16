@@ -1,0 +1,4 @@
+RequestId,EmployeeId,LeaveType,StartDate,EndDate,Status,Reason
+REQ001,EMP005,Personal,2026-05-01,2026-05-03,APPROVED,That night will be the night
+REQ002,EMP009,Sick,2026-04-06,2026-04-10,APPROVED,Appendix removal
+REQ003,EMP005,Sick,2026-05-25,2026-05-30,PENDING,Brain surgery

@@ -1,0 +1,10 @@
+ID,Name,Email,HireDate,Type,Salary,HourlyRate,HoursPerWeek
+EMP001,John Doe,john@example.com,2023-01-15,FullTime,55000.00,,
+EMP002,Sarah Manager,sarah@example.com,2022-03-10,FullTime,75000.00,,
+EMP003,Mike Worker,mike@example.com,2024-01-20,PartTime,,22.50,25
+EMP004,Lisa Intern,lisa@example.com,2024-02-15,PartTime,,18.00,20
+EMP005,Dexter Morgan,thebayharbourbutcher@gmail.com,2026-04-05,FullTime,77000.00,,
+EMP007,Brian Moser,theicetruckkiller@gmail.com,2026-04-05,PartTime,,10.00,10
+EMP008,Maksadbek Hojinazarov,maks.h@gmail.com,2026-04-05,FullTime,65000.00,,
+EMP009,Pique Shams,piqueshams@gmail.com,2026-04-12,PartTime,,25.00,15
+EMP012,Alphonso Davies,alphonzy@gmail.com,2026-04-10,PartTime,,30.00,20
