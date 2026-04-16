@@ -33,14 +33,14 @@ public class LeaveService {
     public boolean submitLeaveRequest(String employeeId, String leaveType,
                                       LocalDate startDate, LocalDate endDate, String reason)
     {
-        // Check if employee exists
+
         Employee employee = employeeService.findEmployeeById(employeeId);
         if (employee == null) {
             System.out.println("Error: Employee with ID " + employeeId + " not found!");
             return false;
         }
 
-        // Validate dates
+
         if (startDate.isAfter(endDate)) {
             System.out.println("Error: Start date cannot be after end date!");
             return false;
@@ -51,7 +51,7 @@ public class LeaveService {
             return false;
         }
 
-        // Check if employee has enough leave balance
+
         double requestedDays = calculateDays(startDate, endDate);
         double availableBalance = getAvailableLeaveBalance(employeeId);
 
@@ -61,16 +61,15 @@ public class LeaveService {
             return false;
         }
 
-        // Check for overlapping leave requests
         if (hasOverlappingRequest(employeeId, startDate, endDate)) {
             System.out.println("Error: You already have a leave request for these dates!");
             return false;
         }
 
-        // Create request ID
+
         String requestId = "REQ" + String.format("%03d", nextRequestId++);
 
-        // Create and add leave request
+
         LeaveRequest request = new LeaveRequest(requestId, employeeId, leaveType,
                 startDate, endDate, reason);
         leaveRequests.add(request);
@@ -81,41 +80,27 @@ public class LeaveService {
         return true;
     }
 
-    /**
-     * READ - Get all leave requests
-     */
+
     public List<LeaveRequest> getAllLeaveRequests() {
         return new ArrayList<>(leaveRequests);
     }
 
-    /**
-     * READ - Get leave requests by employee ID
-     */
     public List<LeaveRequest> getRequestsByEmployee(String employeeId) {
         return leaveRequests.stream()
                 .filter(request -> request.getEmployeeId().equalsIgnoreCase(employeeId))
                 .collect(Collectors.toList());
     }
 
-    /**
-     * READ - Get leave requests by status (PENDING, APPROVED, REJECTED)
-     */
     public List<LeaveRequest> getRequestsByStatus(LeaveStatus status) {
         return leaveRequests.stream()
                 .filter(request -> request.getStatus() == status)
                 .collect(Collectors.toList());
     }
 
-    /**
-     * READ - Get pending leave requests (for approval)
-     */
     public List<LeaveRequest> getPendingRequests() {
         return getRequestsByStatus(LeaveStatus.PENDING);
     }
 
-    /**
-     * READ - Find leave request by ID
-     */
     public LeaveRequest findRequestById(String requestId) {
         for (LeaveRequest request : leaveRequests) {
             if (request.getRequestId().equalsIgnoreCase(requestId)) {
@@ -125,10 +110,6 @@ public class LeaveService {
         return null;
     }
 
-    /**
-     * UPDATE - Approve a leave request
-     * return true if approved successfully
-     */
     public boolean approveRequest(String requestId) {
         LeaveRequest request = findRequestById(requestId);
         if (request == null) {
@@ -149,10 +130,6 @@ public class LeaveService {
         return true;
     }
 
-    /**
-     * UPDATE - Reject a leave request
-     * return true if rejected successfully
-     */
     public boolean rejectRequest(String requestId, String rejectionReason) {
         LeaveRequest request = findRequestById(requestId);
         if (request == null) {
@@ -174,10 +151,6 @@ public class LeaveService {
         return true;
     }
 
-    /**
-     * DELETE - Cancel a pending leave request (only if still pending)
-     * return true if cancelled successfully
-     */
     public boolean cancelRequest(String requestId) {
         LeaveRequest request = findRequestById(requestId);
         if (request == null) {
@@ -196,16 +169,10 @@ public class LeaveService {
         return true;
     }
 
-    /**
-     * Helper - Calculate number of days between two dates
-     */
     private long calculateDays(LocalDate startDate, LocalDate endDate) {
         return java.time.temporal.ChronoUnit.DAYS.between(startDate, endDate) + 1;
     }
 
-    /**
-     * Helper - Get available leave balance for an employee
-     */
     private double getAvailableLeaveBalance(String employeeId) {
         Employee employee = employeeService.findEmployeeById(employeeId);
         if (employee == null) {
@@ -214,7 +181,7 @@ public class LeaveService {
 
         double totalAllowance = employee.getAnnualLeaveAllowance();
 
-        // Calculate used leave (approved requests only)
+
         double usedLeave = leaveRequests.stream()
                 .filter(r -> r.getEmployeeId().equalsIgnoreCase(employeeId))
                 .filter(r -> r.getStatus() == LeaveStatus.APPROVED)
@@ -224,9 +191,6 @@ public class LeaveService {
         return totalAllowance - usedLeave;
     }
 
-    /**
-     * Helper - Check for overlapping leave requests
-     */
     private boolean hasOverlappingRequest(String employeeId, LocalDate startDate, LocalDate endDate) {
         return leaveRequests.stream()
                 .filter(r -> r.getEmployeeId().equalsIgnoreCase(employeeId))
@@ -234,9 +198,6 @@ public class LeaveService {
                 .anyMatch(r -> !(endDate.isBefore(r.getStartDate()) || startDate.isAfter(r.getEndDate())));
     }
 
-    /**
-     * Display all leave requests in formatted table
-     */
     public void displayAllRequests() {
         if (leaveRequests.isEmpty()) {
             System.out.println("No leave requests found.");
@@ -252,9 +213,6 @@ public class LeaveService {
         System.out.println("Total requests: " + leaveRequests.size());
     }
 
-    /**
-     * Display pending requests (for approval)
-     */
     public void displayPendingRequests() {
         List<LeaveRequest> pending = getPendingRequests();
 
@@ -279,9 +237,6 @@ public class LeaveService {
         System.out.println("Total pending: " + pending.size());
     }
 
-    /**
-     * Display leave requests for a specific employee
-     */
     public void displayEmployeeRequests(String employeeId) {
         List<LeaveRequest> requests = getRequestsByEmployee(employeeId);
 
@@ -313,9 +268,6 @@ public class LeaveService {
         System.out.println("");
     }
 
-
-    //Display leave balance for an employee
-
     public void displayLeaveBalance(String employeeId) {
         Employee employee = employeeService.findEmployeeById(employeeId);
         if (employee == null) {
@@ -344,7 +296,6 @@ public class LeaveService {
         List<LeaveRequest> loaded = storage.loadLeaveRequests();
         if (!loaded.isEmpty()) {
             this.leaveRequests = loaded;
-            // Update nextRequestId to avoid duplicate IDs
             for (LeaveRequest request : loaded) {
                 String id = request.getRequestId();
                 if (id.startsWith("REQ")) {
@@ -354,7 +305,6 @@ public class LeaveService {
                             nextRequestId = num + 1;
                         }
                     } catch (NumberFormatException e) {
-                        // Ignore
                     }
                 }
             }
@@ -365,7 +315,7 @@ public class LeaveService {
     }
 
 
-    //Get sample data for testing
+
     public void loadSampleLeaveRequests() {
         submitLeaveRequest("EMP001", "Vacation",
                 LocalDate.of(2024, 5, 10), LocalDate.of(2024, 5, 15), "Summer vacation");
@@ -379,8 +329,6 @@ public class LeaveService {
         submitLeaveRequest("EMP003", "Personal",
                 LocalDate.of(2024, 4, 15), LocalDate.of(2024, 4, 15), "Doctor appointment");
     }
-
-    //Export all leave requests to CSV file
 
     public void exportToCSV(String filePath) {
         storage.exportLeaveRequestsToCSV(filePath, leaveRequests);

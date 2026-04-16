@@ -7,10 +7,6 @@ import com.employeetracker.storage.FileStorageService;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
-// Handles all CRUD operations for Employee objects
-// This class demonstrates encapsulation and separation of concerns
-
 public class EmployeeService {
 
     private FileStorageService storage;
@@ -76,7 +72,6 @@ public class EmployeeService {
         System.out.println("Employee updated successfully!");
         return true;
     }
-    // Update full-time employee salary
     public boolean updateFullTimeSalary(String id, double newSalary) {
         Employee employee = findEmployeeById(id);
         if (employee == null) {
@@ -94,7 +89,6 @@ public class EmployeeService {
             return false;
         }
     }
-    //Update part-time employee details
     public boolean updatePartTimeDetails(String id, Double hourlyRate, Integer hoursPerWeek) {
         Employee employee = findEmployeeById(id);
         if (employee == null) {
@@ -118,7 +112,6 @@ public class EmployeeService {
             return false;
         }
     }
-    //DELETE - remove an employee by ID
     public boolean deleteEmployee(String id) {
         Employee employee = findEmployeeById(id);
         if (employee == null) {

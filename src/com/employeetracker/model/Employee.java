@@ -1,13 +1,8 @@
 package com.employeetracker.model;
 import java.time.LocalDate;
 
-/**
- * Abstract parent class for all employee types.
- * This demonstrates INHERITANCE - child classes will extend this class.
- * This also demonstrates ENCAPSULATION - all fields are private.
- */
 public abstract class Employee {
-    //Private fields = ENCAPSULATION
+
     private String id;
     private String name;
     private String email;
@@ -18,7 +13,6 @@ public abstract class Employee {
         this.email = email;
         this.hireDate = hireDate;
     }
-    //Getters and setters = ENCAPSULATION
     public String getId(){
         return id;
     }
@@ -49,8 +43,6 @@ public abstract class Employee {
     public void setHireDate(LocalDate hireDate) {
         this.hireDate = hireDate;
     }
-    //Abstract methods = INHERITANCE will be demonstrated when child classes
-    //provide different implementations of these methods
 
     public abstract double getAnnualLeaveAllowance();
     public abstract String getEmployeeType();

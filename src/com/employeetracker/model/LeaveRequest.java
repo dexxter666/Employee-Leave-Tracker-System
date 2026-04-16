@@ -1,8 +1,6 @@
 package com.employeetracker.model;
 import java.time.LocalDate;
 
-//Represents a leave request submitted by an employee
-
 public class LeaveRequest {
     private String requestId;
     private String employeeId;
@@ -22,7 +20,6 @@ public class LeaveRequest {
         this.reason = reason;
         this.status = LeaveStatus.PENDING;
     }
-    //getters and setters
     public String getRequestId(){
         return requestId;
     }
@@ -66,7 +63,6 @@ public class LeaveRequest {
         this.reason = reason;
     }
 
-    //calculate number of days requested
     public long getNumberOfDays() {
         return java.time.temporal.ChronoUnit.DAYS.between(startDate, endDate) + 1;
     }

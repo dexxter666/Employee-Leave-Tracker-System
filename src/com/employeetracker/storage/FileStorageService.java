@@ -11,9 +11,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Handles saving and loading data to/from CSV files
- */
+
 public class FileStorageService {
 
     private static final String DATA_DIR = "data/";
@@ -21,24 +19,19 @@ public class FileStorageService {
     private static final String LEAVE_REQUESTS_FILE = DATA_DIR + "leave_requests.csv";
 
     public FileStorageService() {
-        // Create data directory if it doesn't exist
         File dir = new File(DATA_DIR);
         if (!dir.exists()) {
             dir.mkdirs();
         }
     }
 
-    //Save methods
 
-    /**
-     * Save all employees to CSV file
-     */
     public void saveEmployees(List<Employee> employees) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(EMPLOYEES_FILE))) {
-            // Write header
+
             writer.println("ID,Name,Email,HireDate,Type,Salary,HourlyRate,HoursPerWeek");
 
-            // Write each employee
+
             for (Employee emp : employees) {
                 String line = employeeToCsv(emp);
                 writer.println(line);
@@ -51,15 +44,13 @@ public class FileStorageService {
         }
     }
 
-    /**
-     * Save all leave requests to CSV file
-     */
+
     public void saveLeaveRequests(List<LeaveRequest> requests) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(LEAVE_REQUESTS_FILE))) {
-            // Write header
+
             writer.println("RequestId,EmployeeId,LeaveType,StartDate,EndDate,Status,Reason");
 
-            // Write each request
+
             for (LeaveRequest request : requests) {
                 String line = leaveRequestToCsv(request);
                 writer.println(line);
@@ -72,11 +63,6 @@ public class FileStorageService {
         }
     }
 
-    //Load methods
-
-    /**
-     * Load all employees from CSV file
-     */
     public List<Employee> loadEmployees() {
         List<Employee> employees = new ArrayList<>();
         File file = new File(EMPLOYEES_FILE);
@@ -104,9 +90,6 @@ public class FileStorageService {
         return employees;
     }
 
-    /**
-     * Load all leave requests from CSV file
-     */
     public List<LeaveRequest> loadLeaveRequests() {
         List<LeaveRequest> requests = new ArrayList<>();
         File file = new File(LEAVE_REQUESTS_FILE);
@@ -135,11 +118,6 @@ public class FileStorageService {
         return requests;
     }
 
-    //Conversion methods
-
-    /**
-     * Convert Employee object to CSV string
-     */
     private String employeeToCsv(Employee emp) {
         if (emp instanceof FullTimeEmployee) {
             FullTimeEmployee ft = (FullTimeEmployee) emp;
@@ -162,9 +140,6 @@ public class FileStorageService {
         return "";
     }
 
-    /**
-     * Convert CSV string to Employee object
-     */
     private Employee csvToEmployee(String line) {
         String[] parts = line.split(",");
         if (parts.length < 6) {
@@ -189,9 +164,6 @@ public class FileStorageService {
         return null;
     }
 
-    /**
-     * Convert LeaveRequest object to CSV string
-     */
     private String leaveRequestToCsv(LeaveRequest request) {
         return String.format("%s,%s,%s,%s,%s,%s,%s",
                 request.getRequestId(),
@@ -204,9 +176,7 @@ public class FileStorageService {
         );
     }
 
-    /**
-     * Convert CSV string to LeaveRequest object
-     */
+
     private LeaveRequest csvToLeaveRequest(String line) {
         String[] parts = line.split(",");
         if (parts.length < 7) {
@@ -228,11 +198,6 @@ public class FileStorageService {
         return request;
     }
 
-     //Export all employees to a CSV file (user-specified location)
-
-    /**
-     * Export all employees to CSV file
-     */
     public void exportEmployeesToCSV(String filePath, List<Employee> employees) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
             // Write header
@@ -250,9 +215,6 @@ public class FileStorageService {
         }
     }
 
-    /**
-     * Convert a single employee to CSV line
-     */
     private String exportEmployeeToCSVLine(Employee emp) {
         String id = emp.getId();
         String name = emp.getName();
@@ -274,9 +236,6 @@ public class FileStorageService {
         return String.format("%s,%s,%s,%s,%s,,", id, name, email, hireDate, employeeType);
     }
 
-    /**
-     * Export all leave requests to CSV file
-     */
     public void exportLeaveRequestsToCSV(String filePath, List<LeaveRequest> leaveRequests) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
             // Write header
