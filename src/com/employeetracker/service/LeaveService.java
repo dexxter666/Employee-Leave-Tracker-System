@@ -309,23 +309,4 @@ public class LeaveService {
         storage.saveLeaveRequests(leaveRequests);
     }
 
-
-
-    public void loadSampleLeaveRequests() {
-        submitLeaveRequest("EMP001", "Vacation",
-                LocalDate.of(2024, 5, 10), LocalDate.of(2024, 5, 15), "Summer vacation");
-
-        submitLeaveRequest("EMP001", "Sick",
-                LocalDate.of(2024, 4, 1), LocalDate.of(2024, 4, 2), "Flu");
-
-        submitLeaveRequest("EMP002", "Vacation",
-                LocalDate.of(2024, 6, 20), LocalDate.of(2024, 6, 25), "Family trip");
-
-        submitLeaveRequest("EMP003", "Personal",
-                LocalDate.of(2024, 4, 15), LocalDate.of(2024, 4, 15), "Doctor appointment");
-    }
-
-    public void exportToCSV(String filePath) {
-        storage.exportLeaveRequestsToCSV(filePath, leaveRequests);
-    }
 }

@@ -30,7 +30,6 @@ public class Main {
         if (employeeService.getEmployeeCount() == 0) {
             System.out.println("No saved data found. Loading sample data for first time...");
             loadSampleData();
-            // Save the sample data to files
             employeeService.saveToFile();
             leaveService.saveToFile();
             System.out.println("Sample data saved to files.");
