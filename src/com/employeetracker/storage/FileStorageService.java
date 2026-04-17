@@ -72,6 +72,7 @@ public class FileStorageService {
             return employees;
         }
 
+
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line = reader.readLine();
             while ((line = reader.readLine()) != null) {
@@ -86,7 +87,6 @@ public class FileStorageService {
         } catch (IOException e) {
             System.err.println("Error loading employees: " + e.getMessage());
         }
-
         return employees;
     }
 
@@ -100,7 +100,7 @@ public class FileStorageService {
         }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line = reader.readLine(); // Skip header
+            String line = reader.readLine();
 
             while ((line = reader.readLine()) != null) {
                 LeaveRequest request = csvToLeaveRequest(line);
@@ -172,7 +172,7 @@ public class FileStorageService {
                 request.getStartDate(),
                 request.getEndDate(),
                 request.getStatus().name(),
-                request.getReason().replace(",", ";") // Replace commas to avoid CSV issues
+                request.getReason().replace(",", ";")
         );
     }
 
@@ -200,10 +200,8 @@ public class FileStorageService {
 
     public void exportEmployeesToCSV(String filePath, List<Employee> employees) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
-            // Write header
             writer.println("ID,Name,Email,HireDate,EmployeeType,Salary/Rate,HoursPerWeek");
 
-            // Write each employee
             for (Employee emp : employees) {
                 String line = exportEmployeeToCSVLine(emp);
                 writer.println(line);
@@ -238,10 +236,8 @@ public class FileStorageService {
 
     public void exportLeaveRequestsToCSV(String filePath, List<LeaveRequest> leaveRequests) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
-            // Write header
             writer.println("RequestID,EmployeeID,LeaveType,StartDate,EndDate,Status,Reason,Days");
 
-            // Write each leave request
             for (LeaveRequest request : leaveRequests) {
                 String line = String.format("%s,%s,%s,%s,%s,%s,%s,%d",
                         request.getRequestId(),
@@ -250,7 +246,7 @@ public class FileStorageService {
                         request.getStartDate(),
                         request.getEndDate(),
                         request.getStatus().name(),
-                        request.getReason().replace(",", ";"), // Replace commas to avoid breaking CSV
+                        request.getReason().replace(",", ";"),
                         request.getNumberOfDays()
                 );
                 writer.println(line);
