@@ -25,11 +25,6 @@ public class LeaveService {
         this.nextRequestId = 1;
     }
 
-
-    /**
-     * CREATE - Submit a new leave request
-     * @return true if request was submitted successfully
-     */
     public boolean submitLeaveRequest(String employeeId, String leaveType,
                                       LocalDate startDate, LocalDate endDate, String reason)
     {
